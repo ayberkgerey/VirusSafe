@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
+import RegisterCard from '../components/RegisterCard';
 
 export default function MainScreen() {
   return (
@@ -10,6 +11,7 @@ export default function MainScreen() {
         resizeMode="contain"
         source={require('../assets/virussafe_logo.png')}
       />
+      <RegisterCard />
 
       <View style={styles.plusSign}>
         <TouchableOpacity>
@@ -24,13 +26,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: '#3a3939',
+    backgroundColor: '#171717',
   },
-  title: {
-    marginTop: '10%',
-    color: '#acee0f',
-    fontSize: 25,
-  },
+
   plusSign: {
     flex: 1,
     justifyContent: 'flex-end',
