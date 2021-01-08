@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import RegisterCard from '../components/RegisterCard';
 
 export default function MainScreen() {
+  const [shouldShow, setShouldShow] = useState(false);
   return (
     <View style={styles.container}>
       <Image
@@ -11,10 +12,10 @@ export default function MainScreen() {
         resizeMode="contain"
         source={require('../assets/virussafe_logo.png')}
       />
-      <RegisterCard />
+      <View>{shouldShow ? <RegisterCard /> : null}</View>
 
       <View style={styles.plusSign}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => setShouldShow(!shouldShow)}>
           <Icon name="plus" size={65} color="#acee0f" />
         </TouchableOpacity>
       </View>

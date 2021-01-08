@@ -1,33 +1,65 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {
   View,
   Text,
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  AsyncStorage,
 } from 'react-native';
 
-export default function RegisterCard() {
-  return (
-    <View style={styles.cardContainer}>
-      <View style={styles.cardLine}>
-        <Text style={styles.title}>CIHAZ KODU</Text>
-        <TextInput style={styles.inputContainer} />
+class RegisterCard extends Component {
+  state = {
+    deviceName: '',
+    deviceCode: '',
+  };
+  componentDidMount = () => {
+    AsyncStorage.getItem('deviceName').then((value) =>
+      this.setState({deviceName: value}),
+    );
+    AsyncStorage.getItem('deviceCode').then((value) =>
+      this.setState({deviceCode: value}),
+    );
+  };
+  setDeviceName = (value) => {
+    AsyncStorage.setItem('deviceName', value);
+    this.setState({deviceName: value});
+  };
+  setDeviceCode = (value) => {
+    AsyncStorage.setItem('deviceCode', value);
+    this.setState({deviceCode: value});
+  };
+
+  render() {
+    return (
+      <View style={styles.cardContainer}>
+        <View style={styles.cardLine}>
+          <Text style={styles.title}>CIHAZ KODU</Text>
+          <TextInput
+            style={styles.inputContainer}
+            onChangeText={this.setDeviceCode}
+          />
+        </View>
+        <View style={styles.cardLine}>
+          <Text style={styles.title}>CIHAZ ADI</Text>
+          <TextInput
+            style={styles.inputContainer}
+            onChangeText={this.setDeviceName}
+          />
+        </View>
+        <View style={styles.buttonsLine}>
+          <TouchableOpacity>
+            <Text style={styles.buttonTitle}>TEMİZLE</Text>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Text style={styles.buttonTitle}>KAYIT</Text>
+          </TouchableOpacity>
+        </View>
+        <Text>{this.state.deviceName}</Text>
+        <Text style={{color: 'white'}}>{this.state.deviceCode}</Text>
       </View>
-      <View style={styles.cardLine}>
-        <Text style={styles.title}>CIHAZ ADI</Text>
-        <TextInput style={styles.inputContainer} />
-      </View>
-      <View style={styles.buttonsLine}>
-        <TouchableOpacity>
-          <Text style={styles.buttonTitle}>TEMİZLE</Text>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Text style={styles.buttonTitle}>KAYIT</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
+    );
+  }
 }
 
 const styles = StyleSheet.create({
@@ -70,3 +102,5 @@ const styles = StyleSheet.create({
     fontSize: 24,
   },
 });
+
+export default RegisterCard;
