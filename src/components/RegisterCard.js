@@ -55,8 +55,8 @@ class RegisterCard extends Component {
             <Text style={styles.buttonTitle}>KAYIT</Text>
           </TouchableOpacity>
         </View>
-        <Text>{this.state.deviceName}</Text>
-        <Text style={{color: 'white'}}>{this.state.deviceCode}</Text>
+        <Text style={{color: 'blue'}}>{this.state.deviceName}</Text>
+        <Text style={{color: 'blue'}}>{this.state.deviceCode}</Text>
       </View>
     );
   }

@@ -13,7 +13,6 @@ export default function MainScreen() {
         resizeMode="contain"
         source={require('../assets/virussafe_logo.png')}
       />
-      <DeviceCard />
       <View>{shouldShow ? <RegisterCard /> : null}</View>
 
       <View style={styles.plusSign}>
