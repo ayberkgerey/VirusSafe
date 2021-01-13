@@ -7,8 +7,11 @@ import {
   StyleSheet,
   AsyncStorage,
 } from 'react-native';
+import updateDevice from '../redux/actions/actions';
 
 class RegisterCard extends Component {
+  changeDevice = (newDevice) => {};
+
   state = {
     deviceName: '',
     deviceCode: '',
@@ -51,7 +54,10 @@ class RegisterCard extends Component {
           <TouchableOpacity>
             <Text style={styles.buttonTitle}>TEMİZLE</Text>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onClick={() =>
+              this.changeDevice(this.state.deviceName, this.state.deviceCode)
+            }>
             <Text style={styles.buttonTitle}>KAYIT</Text>
           </TouchableOpacity>
         </View>
