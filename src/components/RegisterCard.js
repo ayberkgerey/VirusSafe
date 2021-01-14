@@ -7,24 +7,13 @@ import {
   StyleSheet,
   AsyncStorage,
 } from 'react-native';
-import {connect} from 'react-redux';
-import {addCode, addName} from '../redux/actions';
 
 class RegisterCard extends Component {
   state = {
     deviceName: '',
     deviceCode: '',
   };
-  addName = (text) => {
-    //redux store
-    this.props.dispatch(addName(text));
-    this.setState({deviceName: ''});
-  };
-  addCode = (text) => {
-    //redux store
-    this.props.dispatch(addCode(text));
-    this.setState({deviceName: ''});
-  };
+
   componentDidMount = () => {
     AsyncStorage.getItem('deviceName').then((value) =>
       this.setState({deviceName: value}),
