@@ -7,14 +7,23 @@ import {
   StyleSheet,
   AsyncStorage,
 } from 'react-native';
-import updateDevice from '../redux/actions/actions';
+import {connect} from 'react-redux';
+import {addCode, addName} from '../redux/actions';
 
 class RegisterCard extends Component {
-  changeDevice = (newDevice) => {};
-
   state = {
     deviceName: '',
     deviceCode: '',
+  };
+  addName = (text) => {
+    //redux store
+    this.props.dispatch(addName(text));
+    this.setState({deviceName: ''});
+  };
+  addCode = (text) => {
+    //redux store
+    this.props.dispatch(addCode(text));
+    this.setState({deviceName: ''});
   };
   componentDidMount = () => {
     AsyncStorage.getItem('deviceName').then((value) =>
@@ -55,9 +64,10 @@ class RegisterCard extends Component {
             <Text style={styles.buttonTitle}>TEMİZLE</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onClick={() =>
-              this.changeDevice(this.state.deviceName, this.state.deviceCode)
-            }>
+            onPress={() => {
+              this.addName(this.state.deviceName),
+                this.addCode(this.state.deviceCode);
+            }}>
             <Text style={styles.buttonTitle}>KAYIT</Text>
           </TouchableOpacity>
         </View>

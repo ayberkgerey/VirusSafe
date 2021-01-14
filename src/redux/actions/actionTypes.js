@@ -1,2 +1,2 @@
-export const ADD_NAME = 'ADD_NAME';
-export const ADD_CODE = 'ADD_CODE';
+export const ADD_DEVICE = 'ADD_DEVICE';
+export const TOGGLE_DEVICE = 'TOGGLE_DEVICE';
