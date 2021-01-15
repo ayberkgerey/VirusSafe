@@ -11,11 +11,6 @@ import {
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 
 class AddDevice extends Component {
-  state = {
-    name: '',
-    code: '',
-  };
-
   addDevice = (name, code) => {
     //redux store
     this.props.dispatch(addDevice(name, code));

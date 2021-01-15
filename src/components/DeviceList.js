@@ -12,6 +12,13 @@ const DeviceList = ({devices, toggleDevice}) => (
             textDecorationLine: device.completed ? 'line-through' : 'none',
           }}>
           {device.name}
+        </Text>
+        <Text
+          style={{
+            fontSize: 24,
+            color: 'aqua',
+            textDecorationLine: device.completed ? 'line-through' : 'none',
+          }}>
           {device.code}
         </Text>
       </TouchableOpacity>

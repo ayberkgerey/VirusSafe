@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {addDevice} from '../redux/actions';
 import {
   View,
   Text,
@@ -9,6 +11,13 @@ import {
 } from 'react-native';
 
 class RegisterCard extends Component {
+  addDevice = (name, code) => {
+    //redux store
+    this.props.dispatch(addDevice(name, code));
+    this.setState({name: ''});
+    this.setState({code: ''});
+  };
+
   state = {
     deviceName: '',
     deviceCode: '',
@@ -53,10 +62,12 @@ class RegisterCard extends Component {
             <Text style={styles.buttonTitle}>TEMİZLE</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => {
-              this.addName(this.state.deviceName),
-                this.addCode(this.state.deviceCode);
-            }}>
+            onPress={() =>
+              this.addDevice(
+                AsyncStorage.getItem('deviceName'),
+                AsyncStorage.getItem('deviceCode'),
+              )
+            }>
             <Text style={styles.buttonTitle}>KAYIT</Text>
           </TouchableOpacity>
         </View>
@@ -108,4 +119,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RegisterCard;
+export default connect()(RegisterCard);
