@@ -1,6 +1,4 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {addDevice} from '../redux/actions';
 import {
   View,
   Text,
@@ -11,33 +9,22 @@ import {
 } from 'react-native';
 
 class RegisterCard extends Component {
-  addDevice = (name, code) => {
-    //redux store
-    this.props.dispatch(addDevice(name, code));
-    this.setState({name: ''});
-    this.setState({code: ''});
-  };
-
   state = {
-    deviceName: '',
-    deviceCode: '',
+    name: '',
+    code: '',
   };
 
   componentDidMount = () => {
-    AsyncStorage.getItem('deviceName').then((value) =>
-      this.setState({deviceName: value}),
-    );
-    AsyncStorage.getItem('deviceCode').then((value) =>
-      this.setState({deviceCode: value}),
-    );
+    AsyncStorage.getItem('name').then((value) => this.setState({name: value}));
+    AsyncStorage.getItem('code').then((value) => this.setState({code: value}));
   };
   setDeviceName = (value) => {
-    AsyncStorage.setItem('deviceName', value);
-    this.setState({deviceName: value});
+    AsyncStorage.setItem('name', value);
+    this.setState({name: value});
   };
   setDeviceCode = (value) => {
-    AsyncStorage.setItem('deviceCode', value);
-    this.setState({deviceCode: value});
+    AsyncStorage.setItem('code', value);
+    this.setState({code: value});
   };
 
   render() {
@@ -61,18 +48,12 @@ class RegisterCard extends Component {
           <TouchableOpacity>
             <Text style={styles.buttonTitle}>TEMİZLE</Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() =>
-              this.addDevice(
-                AsyncStorage.getItem('deviceName'),
-                AsyncStorage.getItem('deviceCode'),
-              )
-            }>
+          <TouchableOpacity>
             <Text style={styles.buttonTitle}>KAYIT</Text>
           </TouchableOpacity>
         </View>
-        <Text style={{color: 'blue'}}>{this.state.deviceName}</Text>
-        <Text style={{color: 'blue'}}>{this.state.deviceCode}</Text>
+        <Text style={{color: 'blue'}}>{this.state.name}</Text>
+        <Text style={{color: 'blue'}}>{this.state.code}</Text>
       </View>
     );
   }
@@ -119,4 +100,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect()(RegisterCard);
+export default RegisterCard;
