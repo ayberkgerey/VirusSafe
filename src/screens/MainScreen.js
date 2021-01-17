@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import RegisterCard from '../components/RegisterCard';
+import DeviceCard from '../components/DeviceCard';
 
 export default function MainScreen() {
   const [shouldShow, setShouldShow] = useState(false);
@@ -12,6 +13,7 @@ export default function MainScreen() {
         resizeMode="contain"
         source={require('../assets/virussafe_logo.png')}
       />
+      <DeviceCard />
 
       {shouldShow ? (
         <View>

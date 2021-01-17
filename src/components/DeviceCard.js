@@ -1,30 +1,38 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
+import {DeviceContext} from '../provider/DeviceProvider';
 
-export default function DeviceCard(props) {
-  return (
-    <View style={styles.cardContainer}>
-      <TouchableOpacity style={styles.touchContainer}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}>
-          <View style={{flexDirection: 'column'}}>
-            <Text style={styles.title}>{props.name}</Text>
-            <Text style={styles.codeTitle}>{props.code}</Text>
+class DeviceCard extends Component {
+  render() {
+    return (
+      <DeviceContext.Consumer>
+        {(device) => (
+          <View style={styles.cardContainer}>
+            <TouchableOpacity style={styles.touchContainer}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                <View style={{flexDirection: 'column'}}>
+                  <Text style={styles.title}>{device.name}</Text>
+                  <Text style={styles.codeTitle}>{device.code}</Text>
+                </View>
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <Text style={styles.connectTitle}>Connect</Text>
+                  <Icon name="signal" size={20} color="#acee0f" />
+                </View>
+              </View>
+            </TouchableOpacity>
           </View>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Text style={styles.connectTitle}>Connect</Text>
-            <Icon name="signal" size={20} color="#acee0f" />
-          </View>
-        </View>
-      </TouchableOpacity>
-    </View>
-  );
+        )}
+      </DeviceContext.Consumer>
+    );
+  }
 }
+export default DeviceCard;
 
 const styles = StyleSheet.create({
   cardContainer: {

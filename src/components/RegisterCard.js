@@ -7,6 +7,7 @@ import {
   StyleSheet,
   AsyncStorage,
 } from 'react-native';
+import {DeviceContext} from '../provider/DeviceProvider';
 
 class RegisterCard extends Component {
   state = {
@@ -29,32 +30,36 @@ class RegisterCard extends Component {
 
   render() {
     return (
-      <View style={styles.cardContainer}>
-        <View style={styles.cardLine}>
-          <Text style={styles.title}>CIHAZ KODU</Text>
-          <TextInput
-            style={styles.inputContainer}
-            onChangeText={this.setDeviceCode}
-          />
-        </View>
-        <View style={styles.cardLine}>
-          <Text style={styles.title}>CIHAZ ADI</Text>
-          <TextInput
-            style={styles.inputContainer}
-            onChangeText={this.setDeviceName}
-          />
-        </View>
-        <View style={styles.buttonsLine}>
-          <TouchableOpacity>
-            <Text style={styles.buttonTitle}>TEMİZLE</Text>
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Text style={styles.buttonTitle}>KAYIT</Text>
-          </TouchableOpacity>
-        </View>
-        <Text style={{color: 'blue'}}>{this.state.name}</Text>
-        <Text style={{color: 'blue'}}>{this.state.code}</Text>
-      </View>
+      <DeviceContext.Consumer>
+        {(device) => (
+          <View style={styles.cardContainer}>
+            <View style={styles.cardLine}>
+              <Text style={styles.title}>CIHAZ KODU</Text>
+              <TextInput
+                style={styles.inputContainer}
+                onChangeText={(text) => device.setCode(text)}
+              />
+            </View>
+            <View style={styles.cardLine}>
+              <Text style={styles.title}>CIHAZ ADI</Text>
+              <TextInput
+                style={styles.inputContainer}
+                onChangeText={(text) => device.setName(text)}
+              />
+            </View>
+            <View style={styles.buttonsLine}>
+              <TouchableOpacity>
+                <Text style={styles.buttonTitle}>TEMİZLE</Text>
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <Text style={styles.buttonTitle}>KAYIT</Text>
+              </TouchableOpacity>
+            </View>
+            <Text style={{color: 'blue'}}>{this.state.name}</Text>
+            <Text style={{color: 'blue'}}>{this.state.code}</Text>
+          </View>
+        )}
+      </DeviceContext.Consumer>
     );
   }
 }
