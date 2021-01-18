@@ -1,11 +1,14 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import RegisterCard from '../components/RegisterCard';
 import DeviceCard from '../components/DeviceCard';
+import {DeviceContext} from '../provider/DeviceProvider';
 
 export default function MainScreen() {
   const [shouldShow, setShouldShow] = useState(false);
+  const device = useContext(DeviceContext);
+
   return (
     <View style={styles.container}>
       <Image
