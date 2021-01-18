@@ -10,11 +10,6 @@ import {
 import {DeviceContext} from '../provider/DeviceProvider';
 
 class RegisterCard extends Component {
-  state = {
-    name: '',
-    code: '',
-  };
-
   componentDidMount = () => {
     AsyncStorage.getItem('name').then((value) => this.setState({name: value}));
     AsyncStorage.getItem('code').then((value) => this.setState({code: value}));
@@ -55,8 +50,6 @@ class RegisterCard extends Component {
                 <Text style={styles.buttonTitle}>KAYIT</Text>
               </TouchableOpacity>
             </View>
-            <Text style={{color: 'blue'}}>{this.state.name}</Text>
-            <Text style={{color: 'blue'}}>{this.state.code}</Text>
           </View>
         )}
       </DeviceContext.Consumer>
