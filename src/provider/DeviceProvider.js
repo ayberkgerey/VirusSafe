@@ -24,8 +24,8 @@ class DeviceProvider extends Component {
     this.setState({code});
   };
 
-  setShouldShowRegister = () => {
-    this.state.shouldShowRegister = !this.state.shouldShowRegister;
+  setShouldShowRegister = (shouldShow) => {
+    this.state.shouldShowRegister = shouldShow;
   };
 
   render() {
@@ -37,7 +37,7 @@ class DeviceProvider extends Component {
           code: this.state.code,
           setName: this.setName,
           setCode: this.setCode,
-          setShouldShowRegister: this.setShouldShowRegister(),
+          setShouldShowRegister: this.setShouldShowRegister,
         }}>
         {this.props.children}
       </DeviceContext.Provider>
