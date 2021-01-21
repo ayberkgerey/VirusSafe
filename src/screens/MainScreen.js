@@ -4,10 +4,12 @@ import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import RegisterCard from '../components/RegisterCard';
 import DeviceCard from '../components/DeviceCard';
 import {DeviceContext} from '../provider/DeviceProvider';
+import {VisibilityContext} from '../provider/VisibilityProvider';
 
 export default function MainScreen() {
   const [shouldShow, setShouldShow] = useState(false);
   const device = useContext(DeviceContext);
+  const visibility = useContext(VisibilityContext);
 
   return (
     <View style={styles.container}>
@@ -24,7 +26,10 @@ export default function MainScreen() {
         </View>
       ) : null}
       <View style={styles.plusSign}>
-        <TouchableOpacity onPress={() => setShouldShow(!shouldShow)}>
+        <TouchableOpacity
+          onPress={() => {
+            setShouldShow(!shouldShow);
+          }}>
           <Icon name="plus" size={65} color="#acee0f" />
         </TouchableOpacity>
       </View>
