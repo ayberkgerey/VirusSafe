@@ -8,12 +8,7 @@ const VisibilityProvider = (props) => {
 
   return (
     <VisibilityContext.Provider
-      value={{
-        showRegister,
-        showDevice,
-        setShowRegister,
-        setShowDevice,
-      }}>
+      value={[showRegister, showDevice, setShowRegister, setShowDevice]}>
       {props.children}
     </VisibilityContext.Provider>
   );

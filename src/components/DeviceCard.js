@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import {DeviceContext} from '../provider/DeviceProvider';
@@ -6,9 +6,17 @@ import {DeviceContext} from '../provider/DeviceProvider';
 const DeviceCard = () => {
   const device = useContext(DeviceContext);
 
+  const [showDelete, setShowDelete] = useState(false);
+  const [showConnect, setShowConnect] = useState(true);
+
   return (
     <View style={styles.cardContainer}>
-      <TouchableOpacity style={styles.touchContainer}>
+      <TouchableOpacity
+        style={styles.touchContainer}
+        onLongPress={() => {
+          setShowConnect(!showConnect);
+          setShowDelete(!showDelete);
+        }}>
         <View
           style={{
             flexDirection: 'row',
@@ -19,10 +27,17 @@ const DeviceCard = () => {
             <Text style={styles.title}>{device.name}</Text>
             <Text style={styles.codeTitle}>{device.code}</Text>
           </View>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Text style={styles.connectTitle}>Connect</Text>
-            <Icon name="signal" size={20} color="#acee0f" />
-          </View>
+          {showConnect ? (
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Text style={styles.connectTitle}>Connect</Text>
+              <Icon name="signal" size={20} color="#acee0f" />
+            </View>
+          ) : null}
+          {showDelete ? (
+            <TouchableOpacity style={styles.deleteContainer}>
+              <Text style={styles.deleteTitle}>Delete</Text>
+            </TouchableOpacity>
+          ) : null}
         </View>
       </TouchableOpacity>
     </View>
@@ -53,5 +68,17 @@ const styles = StyleSheet.create({
   },
   touchContainer: {
     padding: 6,
+  },
+  deleteContainer: {
+    width: 70,
+    backgroundColor: '#acee0f',
+    alignItems: 'center',
+    marginRight: 10,
+  },
+  deleteTitle: {
+    color: 'black',
+    fontWeight: 'bold',
+    fontSize: 16,
+    marginRight: 10,
   },
 });

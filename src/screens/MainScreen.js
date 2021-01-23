@@ -1,15 +1,19 @@
-import React, {useContext, useState} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import React, {useState} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  FlatList,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import RegisterCard from '../components/RegisterCard';
 import DeviceCard from '../components/DeviceCard';
-import {DeviceContext} from '../provider/DeviceProvider';
-import {VisibilityContext} from '../provider/VisibilityProvider';
+import CardList from '../components/CardList';
 
 export default function MainScreen() {
   const [shouldShow, setShouldShow] = useState(false);
-  const device = useContext(DeviceContext);
-  const visibility = useContext(VisibilityContext);
 
   return (
     <View style={styles.container}>
@@ -19,7 +23,7 @@ export default function MainScreen() {
         source={require('../assets/virussafe_logo.png')}
       />
       <DeviceCard />
-
+      <CardList />
       {shouldShow ? (
         <View>
           <RegisterCard />
