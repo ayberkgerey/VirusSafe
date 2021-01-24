@@ -12,7 +12,6 @@ export default function CardList() {
         data={[
           {name: device.name, code: device.code},
           {name: device.name, code: device.code},
-          {name: device.name, code: device.code},
         ]}
         renderItem={({item}) => (
           <View style={{marginTop: 20}}>

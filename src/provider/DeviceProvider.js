@@ -1,51 +1,18 @@
-import React, {Component} from 'react';
-import {AsyncStorage} from 'react-native';
+import React, {useState, useEffect} from 'react';
 
 const DeviceContext = React.createContext();
 
-class DeviceProvider extends Component {
-  state = {
-    device: [
-      {
-        id: 0,
-        name: '',
-        code: '',
-      },
-      {
-        id: 1,
-        name: '',
-        code: '',
-      },
-    ],
-  };
-  componentDidMount = () => {
-    AsyncStorage.getItem('name').then((name) => this.setState({name: name}));
-    AsyncStorage.getItem('code').then((code) => this.setState({code: code}));
-  };
+const DeviceProvider = (props) => {
+  const [devices, setDevices] = useState([]);
+  const [name, setName] = useState([]);
+  const [code, setCode] = useState([]);
 
-  setName = (name) => {
-    AsyncStorage.setItem('name');
-    this.setState({name});
-  };
-
-  setCode = (code) => {
-    AsyncStorage.setItem('code', code);
-    this.setState({code});
-  };
-
-  render() {
-    return (
-      <DeviceContext.Provider
-        value={{
-          name: this.state.name,
-          code: this.state.code,
-          setName: this.setName,
-          setCode: this.setCode,
-        }}>
-        {this.props.children}
-      </DeviceContext.Provider>
-    );
-  }
-}
+  return (
+    <DeviceContext.Provider
+      value={{code: code, name: name, setName: setName, setCode: setCode}}>
+      {props.children}
+    </DeviceContext.Provider>
+  );
+};
 
 export {DeviceProvider, DeviceContext};
