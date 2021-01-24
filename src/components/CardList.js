@@ -1,24 +1,23 @@
-import React from 'react';
-import {View, Text, FlatList, StyleSheet} from 'react-native';
+import React, {useContext} from 'react';
+import {View, FlatList, StyleSheet} from 'react-native';
+import DeviceCard from './DeviceCard';
+import {DeviceContext} from '../provider/DeviceProvider';
 
 export default function CardList() {
+  const device = useContext(DeviceContext);
+
   return (
     <View style={styles.container}>
       <FlatList
         data={[
-          {key: 'Devin'},
-          {key: 'Dan'},
-          {key: 'Dominic'},
-          {key: 'Jackson'},
-          {key: 'James'},
-          {key: 'Joel'},
-          {key: 'John'},
-          {key: 'Jillian'},
-          {key: 'Jimmy'},
-          {key: 'Julie'},
+          {name: device.name, code: device.code},
+          {name: device.name, code: device.code},
+          {name: device.name, code: device.code},
         ]}
         renderItem={({item}) => (
-          <Text style={{color: 'white'}}>{item.key}</Text>
+          <View style={{marginTop: 20}}>
+            <DeviceCard name={item.name} code={item.code} />
+          </View>
         )}
       />
     </View>
@@ -28,5 +27,8 @@ export default function CardList() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    height: 58,
+    width: '100%',
+    marginLeft: '10%',
   },
 });

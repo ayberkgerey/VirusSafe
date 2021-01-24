@@ -1,15 +1,7 @@
 import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Image,
-  FlatList,
-} from 'react-native';
+import {View, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import RegisterCard from '../components/RegisterCard';
-import DeviceCard from '../components/DeviceCard';
 import CardList from '../components/CardList';
 
 export default function MainScreen() {
@@ -22,8 +14,9 @@ export default function MainScreen() {
         resizeMode="contain"
         source={require('../assets/virussafe_logo.png')}
       />
-      <DeviceCard />
-      <CardList />
+      <View style={styles.cardList}>
+        <CardList />
+      </View>
       {shouldShow ? (
         <View>
           <RegisterCard />
@@ -55,5 +48,11 @@ const styles = StyleSheet.create({
   logoImage: {
     height: '25%',
     width: '90%',
+  },
+  cardList: {
+    flex: 1,
+    height: 58,
+    width: '100%',
+    alignItems: 'center',
   },
 });

@@ -1,12 +1,22 @@
-import React, {Component, useState} from 'react';
+import React, {Component} from 'react';
 import {AsyncStorage} from 'react-native';
 
 const DeviceContext = React.createContext();
 
 class DeviceProvider extends Component {
   state = {
-    name: '',
-    code: '',
+    device: [
+      {
+        id: 0,
+        name: '',
+        code: '',
+      },
+      {
+        id: 1,
+        name: '',
+        code: '',
+      },
+    ],
   };
   componentDidMount = () => {
     AsyncStorage.getItem('name').then((name) => this.setState({name: name}));
@@ -14,7 +24,7 @@ class DeviceProvider extends Component {
   };
 
   setName = (name) => {
-    AsyncStorage.setItem('name', name);
+    AsyncStorage.setItem('name');
     this.setState({name});
   };
 

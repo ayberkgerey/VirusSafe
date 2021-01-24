@@ -3,7 +3,7 @@ import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import {DeviceContext} from '../provider/DeviceProvider';
 
-const DeviceCard = () => {
+const DeviceCard = (props) => {
   const device = useContext(DeviceContext);
 
   const [showDelete, setShowDelete] = useState(false);
@@ -24,8 +24,8 @@ const DeviceCard = () => {
             alignItems: 'center',
           }}>
           <View style={{flexDirection: 'column'}}>
-            <Text style={styles.title}>{device.name}</Text>
-            <Text style={styles.codeTitle}>{device.code}</Text>
+            <Text style={styles.title}>{props.name}</Text>
+            <Text style={styles.codeTitle}>{props.code}</Text>
           </View>
           {showConnect ? (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
