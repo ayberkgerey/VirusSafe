@@ -4,12 +4,16 @@ const DeviceContext = React.createContext();
 
 const DeviceProvider = (props) => {
   const [devices, setDevices] = useState([]);
-  const [name, setName] = useState([]);
-  const [code, setCode] = useState([]);
+  const [name, setName] = useState();
+  const [code, setCode] = useState();
+
+  const addDevice = () => {
+    setDevices([...devices, {key: devices.length, name: {name}, code: {code}}]);
+  };
 
   return (
     <DeviceContext.Provider
-      value={{code: code, name: name, setName: setName, setCode: setCode}}>
+      value={{setName, setCode, devices, setDevices, addDevice}}>
       {props.children}
     </DeviceContext.Provider>
   );

@@ -1,11 +1,8 @@
-import React, {useContext, useState} from 'react';
+import React, {useState} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
-import {DeviceContext} from '../provider/DeviceProvider';
 
 const DeviceCard = (props) => {
-  const device = useContext(DeviceContext);
-
   const [showDelete, setShowDelete] = useState(false);
   const [showConnect, setShowConnect] = useState(true);
 

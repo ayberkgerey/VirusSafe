@@ -1,5 +1,5 @@
-import React, {useContext} from 'react';
-import {View, FlatList, StyleSheet} from 'react-native';
+import React, {useContext, useState} from 'react';
+import {View, FlatList, ListView, StyleSheet} from 'react-native';
 import DeviceCard from './DeviceCard';
 import {DeviceContext} from '../provider/DeviceProvider';
 
@@ -9,10 +9,7 @@ export default function CardList() {
   return (
     <View style={styles.container}>
       <FlatList
-        data={[
-          {name: device.name, code: device.code},
-          {name: device.name, code: device.code},
-        ]}
+        data={device.devices}
         renderItem={({item}) => (
           <View style={{marginTop: 20}}>
             <DeviceCard name={item.name} code={item.code} />
