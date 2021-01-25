@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import {DeviceContext} from '../provider/DeviceProvider';
 
-export default function RegisterCard(props) {
+export default function RegisterCard() {
   const [temporaryName, setTemporaryName] = useState('');
   const [temporaryCode, setTemporaryCode] = useState('');
 

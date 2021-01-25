@@ -8,7 +8,7 @@ const DeviceProvider = (props) => {
   const [code, setCode] = useState();
 
   const addDevice = () => {
-    setDevices([...devices, {key: devices.length, name: {name}, code: {code}}]);
+    setDevices([...devices, {key: devices.length, name, code}]);
   };
 
   return (
