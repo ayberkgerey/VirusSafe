@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import {View, StyleSheet, TouchableOpacity, Image, Button} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import RegisterCard from '../components/RegisterCard';
 import CardList from '../components/CardList';
@@ -17,6 +17,7 @@ export default function MainScreen() {
       <View style={styles.cardList}>
         <CardList />
       </View>
+
       {shouldShow ? (
         <View>
           <RegisterCard />
@@ -46,8 +47,8 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   logoImage: {
-    height: '25%',
-    width: '90%',
+    height: '18%',
+    width: '70%',
   },
   cardList: {
     flex: 1,

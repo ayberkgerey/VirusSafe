@@ -1,15 +1,20 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
+import {useNavigation} from '@react-navigation/core';
 
 const DeviceCard = (props) => {
   const [showDelete, setShowDelete] = useState(false);
   const [showConnect, setShowConnect] = useState(true);
+  const navigation = useNavigation();
 
   return (
     <View style={styles.cardContainer}>
       <TouchableOpacity
         style={styles.touchContainer}
+        onPress={() =>
+          navigation.navigate('ControlScreen', {screen: 'ControlScreen'})
+        }
         onLongPress={() => {
           setShowConnect(!showConnect);
           setShowDelete(!showDelete);
@@ -44,6 +49,7 @@ export default DeviceCard;
 
 const styles = StyleSheet.create({
   cardContainer: {
+    flex: 1,
     height: 58,
     width: '90%',
     backgroundColor: '#3a3939',

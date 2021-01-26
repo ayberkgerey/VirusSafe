@@ -1,10 +1,50 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, TouchableOpacity, StyleSheet, Image} from 'react-native';
 
 export default function ControlScreen() {
   return (
     <View style={styles.container}>
-      <Text>Control Screen</Text>
+      <Image
+        style={styles.logoImage}
+        resizeMode="contain"
+        source={require('../assets/virussafe_logo.png')}
+      />
+      <View style={styles.buttonContainer}>
+        <View style={{flexDirection: 'row'}}>
+          <TouchableOpacity>
+            <Image
+              style={styles.buttonImage}
+              resizeMode="contain"
+              source={require('../assets/silenceModPassive.png')}
+            />
+          </TouchableOpacity>
+
+          <TouchableOpacity>
+            <Image
+              style={styles.buttonImage}
+              resizeMode="contain"
+              source={require('../assets/sleepTimerPassive.png')}
+            />
+          </TouchableOpacity>
+        </View>
+        <View style={{flexDirection: 'row', marginTop: 15}}>
+          <TouchableOpacity>
+            <Image
+              style={styles.buttonImage}
+              resizeMode="contain"
+              source={require('../assets/autoPassive.png')}
+            />
+          </TouchableOpacity>
+
+          <TouchableOpacity>
+            <Image
+              style={styles.buttonImage}
+              resizeMode="contain"
+              source={require('../assets/turboPassive.png')}
+            />
+          </TouchableOpacity>
+        </View>
+      </View>
     </View>
   );
 }
@@ -12,7 +52,18 @@ export default function ControlScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#171717',
+  },
+  logoImage: {
+    height: '18%',
+    width: '70%',
+  },
+  buttonImage: {
+    height: 70,
+    width: 200,
+  },
+  buttonContainer: {
+    marginTop: '95%',
   },
 });

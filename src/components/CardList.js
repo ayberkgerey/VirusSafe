@@ -11,7 +11,7 @@ export default function CardList() {
       <FlatList
         data={device.devices}
         renderItem={({item}) => (
-          <View style={{marginTop: 20}}>
+          <View style={{marginTop: 15}}>
             <DeviceCard name={item.name} code={item.code} />
           </View>
         )}
