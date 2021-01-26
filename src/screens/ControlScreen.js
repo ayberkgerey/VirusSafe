@@ -1,7 +1,12 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, TouchableOpacity, StyleSheet, Image} from 'react-native';
 
 export default function ControlScreen() {
+  const [showSilenceMod, setShowSilenceMod] = useState(true);
+  const [showSleepTimer, setShowSleepTimer] = useState(true);
+  const [showAuto, setShowAuto] = useState(true);
+  const [showTurbo, setShowTurbo] = useState(true);
+
   return (
     <View style={styles.container}>
       <Image
@@ -11,37 +16,81 @@ export default function ControlScreen() {
       />
       <View style={styles.buttonContainer}>
         <View style={{flexDirection: 'row'}}>
-          <TouchableOpacity>
-            <Image
-              style={styles.buttonImage}
-              resizeMode="contain"
-              source={require('../assets/silenceModPassive.png')}
-            />
+          <TouchableOpacity
+            onPress={() => {
+              setShowSilenceMod(!showSilenceMod);
+            }}>
+            {showSilenceMod ? (
+              <Image
+                style={styles.buttonImage}
+                resizeMode="contain"
+                source={require('../assets/silenceModPassive.png')}
+              />
+            ) : (
+              <Image
+                style={styles.buttonImage}
+                resizeMode="contain"
+                source={require('../assets/silenceModActive.png')}
+              />
+            )}
           </TouchableOpacity>
 
-          <TouchableOpacity>
-            <Image
-              style={styles.buttonImage}
-              resizeMode="contain"
-              source={require('../assets/sleepTimerPassive.png')}
-            />
+          <TouchableOpacity
+            onPress={() => {
+              setShowSleepTimer(!showSleepTimer);
+            }}>
+            {showSleepTimer ? (
+              <Image
+                style={styles.buttonImage}
+                resizeMode="contain"
+                source={require('../assets/sleepTimerPassive.png')}
+              />
+            ) : (
+              <Image
+                style={styles.buttonImage}
+                resizeMode="contain"
+                source={require('../assets/sleepTimerActive.png')}
+              />
+            )}
           </TouchableOpacity>
         </View>
         <View style={{flexDirection: 'row', marginTop: 15}}>
-          <TouchableOpacity>
-            <Image
-              style={styles.buttonImage}
-              resizeMode="contain"
-              source={require('../assets/autoPassive.png')}
-            />
+          <TouchableOpacity
+            onPress={() => {
+              setShowAuto(!showAuto);
+            }}>
+            {showAuto ? (
+              <Image
+                style={styles.buttonImage}
+                resizeMode="contain"
+                source={require('../assets/autoPassive.png')}
+              />
+            ) : (
+              <Image
+                style={styles.buttonImage}
+                resizeMode="contain"
+                source={require('../assets/autoActive.png')}
+              />
+            )}
           </TouchableOpacity>
 
-          <TouchableOpacity>
-            <Image
-              style={styles.buttonImage}
-              resizeMode="contain"
-              source={require('../assets/turboPassive.png')}
-            />
+          <TouchableOpacity
+            onPress={() => {
+              setShowTurbo(!showTurbo);
+            }}>
+            {showTurbo ? (
+              <Image
+                style={styles.buttonImage}
+                resizeMode="contain"
+                source={require('../assets/turboPassive.png')}
+              />
+            ) : (
+              <Image
+                style={styles.buttonImage}
+                resizeMode="contain"
+                source={require('../assets/turboActive.png')}
+              />
+            )}
           </TouchableOpacity>
         </View>
       </View>
