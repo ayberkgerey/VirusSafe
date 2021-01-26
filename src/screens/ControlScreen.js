@@ -2,10 +2,10 @@ import React, {useState} from 'react';
 import {View, TouchableOpacity, StyleSheet, Image} from 'react-native';
 
 export default function ControlScreen() {
-  const [showSilenceMod, setShowSilenceMod] = useState(true);
-  const [showSleepTimer, setShowSleepTimer] = useState(true);
-  const [showAuto, setShowAuto] = useState(true);
-  const [showTurbo, setShowTurbo] = useState(true);
+  const [showSilenceMod, setShowSilenceMod] = useState(false);
+  const [showSleepTimer, setShowSleepTimer] = useState(false);
+  const [showAuto, setShowAuto] = useState(false);
+  const [showTurbo, setShowTurbo] = useState(false);
 
   return (
     <View style={styles.container}>
@@ -19,18 +19,21 @@ export default function ControlScreen() {
           <TouchableOpacity
             onPress={() => {
               setShowSilenceMod(!showSilenceMod);
+              setShowAuto(false);
+              setShowTurbo(false);
+              setShowSleepTimer(false);
             }}>
             {showSilenceMod ? (
               <Image
                 style={styles.buttonImage}
                 resizeMode="contain"
-                source={require('../assets/silenceModPassive.png')}
+                source={require('../assets/silenceModActive.png')}
               />
             ) : (
               <Image
                 style={styles.buttonImage}
                 resizeMode="contain"
-                source={require('../assets/silenceModActive.png')}
+                source={require('../assets/silenceModPassive.png')}
               />
             )}
           </TouchableOpacity>
@@ -38,18 +41,21 @@ export default function ControlScreen() {
           <TouchableOpacity
             onPress={() => {
               setShowSleepTimer(!showSleepTimer);
+              setShowAuto(false);
+              setShowSilenceMod(false);
+              setShowTurbo(false);
             }}>
             {showSleepTimer ? (
               <Image
                 style={styles.buttonImage}
                 resizeMode="contain"
-                source={require('../assets/sleepTimerPassive.png')}
+                source={require('../assets/sleepTimerActive.png')}
               />
             ) : (
               <Image
                 style={styles.buttonImage}
                 resizeMode="contain"
-                source={require('../assets/sleepTimerActive.png')}
+                source={require('../assets/sleepTimerPassive.png')}
               />
             )}
           </TouchableOpacity>
@@ -58,18 +64,21 @@ export default function ControlScreen() {
           <TouchableOpacity
             onPress={() => {
               setShowAuto(!showAuto);
+              setShowSilenceMod(false);
+              setShowSleepTimer(false);
+              setShowTurbo(false);
             }}>
             {showAuto ? (
               <Image
                 style={styles.buttonImage}
                 resizeMode="contain"
-                source={require('../assets/autoPassive.png')}
+                source={require('../assets/autoActive.png')}
               />
             ) : (
               <Image
                 style={styles.buttonImage}
                 resizeMode="contain"
-                source={require('../assets/autoActive.png')}
+                source={require('../assets/autoPassive.png')}
               />
             )}
           </TouchableOpacity>
@@ -77,18 +86,21 @@ export default function ControlScreen() {
           <TouchableOpacity
             onPress={() => {
               setShowTurbo(!showTurbo);
+              setShowSilenceMod(false);
+              setShowSleepTimer(false);
+              setShowAuto(false);
             }}>
             {showTurbo ? (
               <Image
                 style={styles.buttonImage}
                 resizeMode="contain"
-                source={require('../assets/turboPassive.png')}
+                source={require('../assets/turboActive.png')}
               />
             ) : (
               <Image
                 style={styles.buttonImage}
                 resizeMode="contain"
-                source={require('../assets/turboActive.png')}
+                source={require('../assets/turboPassive.png')}
               />
             )}
           </TouchableOpacity>
