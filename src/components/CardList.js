@@ -5,10 +5,10 @@ import {DeviceContext} from '../provider/DeviceProvider';
 
 export default function CardList() {
   const device = useContext(DeviceContext);
-
   return (
     <View style={styles.container}>
       <FlatList
+        keyExtractor={(item, index) => item.id.toString()}
         data={device.devices}
         renderItem={({item}) => (
           <View style={{marginTop: 15}}>

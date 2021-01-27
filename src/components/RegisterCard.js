@@ -38,7 +38,11 @@ export default function RegisterCard() {
               onPress={() => {
                 device.setDevices((prevState) => [
                   ...prevState,
-                  {name: temporaryName, code: temporaryCode},
+                  {
+                    id: device.devices.length,
+                    name: temporaryName,
+                    code: temporaryCode,
+                  },
                 ]);
               }}>
               <Text style={styles.buttonTitle}>KAYIT</Text>
