@@ -1,12 +1,19 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import {useNavigation} from '@react-navigation/core';
+import {DeviceContext} from '../provider/DeviceProvider';
 
 const DeviceCard = (props) => {
   const [showDelete, setShowDelete] = useState(false);
   const [showConnect, setShowConnect] = useState(true);
   const navigation = useNavigation();
+  const device = useContext(DeviceContext);
+
+  const handleRemove = (id) => {
+    const newList = device.devices.filter((item) => item.id !== id);
+    device.setDevices(newList);
+  };
 
   return (
     <View style={styles.cardContainer}>

@@ -5,6 +5,7 @@ import {DeviceContext} from '../provider/DeviceProvider';
 
 export default function CardList() {
   const device = useContext(DeviceContext);
+
   return (
     <View style={styles.container}>
       <FlatList
@@ -12,7 +13,7 @@ export default function CardList() {
         data={device.devices}
         renderItem={({item}) => (
           <View style={{marginTop: 15}}>
-            <DeviceCard name={item.name} code={item.code} />
+            <DeviceCard id={item.id} name={item.name} code={item.code} />
           </View>
         )}
       />

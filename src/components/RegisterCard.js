@@ -36,14 +36,16 @@ export default function RegisterCard() {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                device.setDevices((prevState) => [
-                  ...prevState,
-                  {
-                    id: device.devices.length,
-                    name: temporaryName,
-                    code: temporaryCode,
-                  },
-                ]);
+                if (temporaryName !== '' && temporaryCode !== '') {
+                  device.setDevices((prevState) => [
+                    ...prevState,
+                    {
+                      id: device.devices.length,
+                      name: temporaryName,
+                      code: temporaryCode,
+                    },
+                  ]);
+                }
               }}>
               <Text style={styles.buttonTitle}>KAYIT</Text>
             </TouchableOpacity>
