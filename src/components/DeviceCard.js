@@ -8,12 +8,6 @@ const DeviceCard = (props) => {
   const [showDelete, setShowDelete] = useState(false);
   const [showConnect, setShowConnect] = useState(true);
   const navigation = useNavigation();
-  const device = useContext(DeviceContext);
-
-  const handleRemove = (id) => {
-    const newList = device.devices.filter((item) => item.id !== id);
-    device.setDevices(newList);
-  };
 
   return (
     <View style={styles.cardContainer}>

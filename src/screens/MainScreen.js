@@ -17,7 +17,6 @@ export default function MainScreen() {
       <View style={styles.cardList}>
         <CardList />
       </View>
-
       {shouldShow ? (
         <View>
           <RegisterCard />

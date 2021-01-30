@@ -1,12 +1,26 @@
 import React, {useState} from 'react';
-import {View, TouchableOpacity, StyleSheet, Image} from 'react-native';
+import {View, TouchableOpacity, StyleSheet, Image, Switch} from 'react-native';
 
 export default function ControlScreen() {
   const [showSilenceMod, setShowSilenceMod] = useState(false);
   const [showSleepTimer, setShowSleepTimer] = useState(false);
   const [showAuto, setShowAuto] = useState(false);
   const [showTurbo, setShowTurbo] = useState(false);
-
+  const [isEnabled, setIsEnabled] = useState(false);
+  const toggleSwitch = () => {
+    setIsEnabled((previousState) => !previousState);
+    if (!isEnabled) {
+      setShowAuto(true);
+      setShowTurbo(false);
+      setShowSilenceMod(false);
+      setShowSleepTimer(false);
+    } else {
+      setShowAuto(false);
+      setShowTurbo(false);
+      setShowSilenceMod(false);
+      setShowSleepTimer(false);
+    }
+  };
   return (
     <View style={styles.container}>
       <Image
@@ -14,14 +28,24 @@ export default function ControlScreen() {
         resizeMode="contain"
         source={require('../assets/virussafe_logo.png')}
       />
+      <Switch
+        trackColor={{false: '#767577', true: '#767577'}}
+        thumbColor={isEnabled ? '#acee0f' : '#f4f3f4'}
+        ios_backgroundColor="#3e3e3e"
+        onValueChange={toggleSwitch}
+        value={isEnabled}
+      />
       <View style={styles.buttonContainer}>
         <View style={{flexDirection: 'row'}}>
           <TouchableOpacity
             onPress={() => {
-              setShowSilenceMod(!showSilenceMod);
-              setShowAuto(false);
-              setShowTurbo(false);
-              setShowSleepTimer(false);
+              if (!isEnabled) {
+              } else {
+                setShowSilenceMod(true);
+                setShowAuto(false);
+                setShowTurbo(false);
+                setShowSleepTimer(false);
+              }
             }}>
             {showSilenceMod ? (
               <Image
@@ -40,10 +64,13 @@ export default function ControlScreen() {
 
           <TouchableOpacity
             onPress={() => {
-              setShowSleepTimer(!showSleepTimer);
-              setShowAuto(false);
-              setShowSilenceMod(false);
-              setShowTurbo(false);
+              if (!isEnabled) {
+              } else {
+                setShowSleepTimer(true);
+                setShowAuto(false);
+                setShowSilenceMod(false);
+                setShowTurbo(false);
+              }
             }}>
             {showSleepTimer ? (
               <Image
@@ -63,10 +90,13 @@ export default function ControlScreen() {
         <View style={{flexDirection: 'row', marginTop: 15}}>
           <TouchableOpacity
             onPress={() => {
-              setShowAuto(!showAuto);
-              setShowSilenceMod(false);
-              setShowSleepTimer(false);
-              setShowTurbo(false);
+              if (!isEnabled) {
+              } else {
+                setShowAuto(true);
+                setShowSilenceMod(false);
+                setShowSleepTimer(false);
+                setShowTurbo(false);
+              }
             }}>
             {showAuto ? (
               <Image
@@ -85,10 +115,13 @@ export default function ControlScreen() {
 
           <TouchableOpacity
             onPress={() => {
-              setShowTurbo(!showTurbo);
-              setShowSilenceMod(false);
-              setShowSleepTimer(false);
-              setShowAuto(false);
+              if (!isEnabled) {
+              } else {
+                setShowTurbo(true);
+                setShowSilenceMod(false);
+                setShowSleepTimer(false);
+                setShowAuto(false);
+              }
             }}>
             {showTurbo ? (
               <Image
