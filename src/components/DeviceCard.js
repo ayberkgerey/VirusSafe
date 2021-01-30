@@ -3,11 +3,19 @@ import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import {useNavigation} from '@react-navigation/core';
 import {DeviceContext} from '../provider/DeviceProvider';
+import {BleManager} from 'react-native-ble-plx';
 
 const DeviceCard = (props) => {
   const [showDelete, setShowDelete] = useState(false);
   const [showConnect, setShowConnect] = useState(true);
   const navigation = useNavigation();
+  const device = useContext(DeviceContext);
+
+  const removeIt = () => {
+    console.log(JSON.stringify(device.devices));
+    const filter = device.devices.filter((item) => item.code !== props.code);
+    device.setDevices(filter);
+  };
 
   return (
     <View style={styles.cardContainer}>
@@ -37,7 +45,7 @@ const DeviceCard = (props) => {
             </View>
           ) : null}
           {showDelete ? (
-            <TouchableOpacity style={styles.deleteContainer}>
+            <TouchableOpacity onPress={removeIt} style={styles.deleteContainer}>
               <Text style={styles.deleteTitle}>Delete</Text>
             </TouchableOpacity>
           ) : null}
