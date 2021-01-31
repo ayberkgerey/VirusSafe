@@ -9,8 +9,8 @@ import {
 import {DeviceContext} from '../provider/DeviceProvider';
 
 export default function RegisterCard() {
-  const [temporaryName, setTemporaryName] = useState('');
-  const [temporaryCode, setTemporaryCode] = useState('');
+  const [temporaryName, setTemporaryName] = useState();
+  const [temporaryCode, setTemporaryCode] = useState();
 
   return (
     <DeviceContext.Consumer>

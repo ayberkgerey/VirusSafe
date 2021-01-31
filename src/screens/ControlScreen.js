@@ -21,6 +21,7 @@ export default function ControlScreen() {
       setShowSleepTimer(false);
     }
   };
+
   return (
     <View style={styles.container}>
       <Image

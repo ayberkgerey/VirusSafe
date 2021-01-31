@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import {useNavigation} from '@react-navigation/core';
@@ -10,6 +10,7 @@ const DeviceCard = (props) => {
   const [showConnect, setShowConnect] = useState(true);
   const navigation = useNavigation();
   const device = useContext(DeviceContext);
+  const manager = new BleManager();
 
   const removeIt = () => {
     console.log(JSON.stringify(device.devices));
@@ -17,13 +18,29 @@ const DeviceCard = (props) => {
     device.setDevices(filter);
   };
 
+  const scanAndConnect = () => {
+    manager.startDeviceScan(null, null, (error, device) => {
+      if (error) {
+        // Handle error (scanning will be stopped automatically)
+        return;
+      }
+      // Check if it is a device you are looking for based on advertisement data
+      // or other criteria.
+      if (device.name === props.code) {
+        // Stop scanning as it's not necessary if you are scanning for one device.
+        manager.stopDeviceScan();
+        console.log('Device Connected !');
+        navigation.navigate('ControlScreen', {screen: 'ControlScreen'});
+        // Proceed with connection.
+      }
+    });
+  };
+
   return (
     <View style={styles.cardContainer}>
       <TouchableOpacity
         style={styles.touchContainer}
-        onPress={() =>
-          navigation.navigate('ControlScreen', {screen: 'ControlScreen'})
-        }
+        onPress={() => scanAndConnect}
         onLongPress={() => {
           setShowConnect(!showConnect);
           setShowDelete(!showDelete);
