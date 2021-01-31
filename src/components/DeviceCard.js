@@ -1,4 +1,4 @@
-import React, {useContext, useState, useEffect} from 'react';
+import React, {useContext, useState} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import {useNavigation} from '@react-navigation/core';
@@ -19,17 +19,18 @@ const DeviceCard = (props) => {
   };
 
   const scanAndConnect = () => {
+    console.log('Scanning Devices...');
     manager.startDeviceScan(null, null, (error, device) => {
       if (error) {
-        // Handle error (scanning will be stopped automatically)
+        console.log(JSON.stringify(error));
         return;
       }
       // Check if it is a device you are looking for based on advertisement data
       // or other criteria.
       if (device.name === props.code) {
         // Stop scanning as it's not necessary if you are scanning for one device.
+        console.log('Device Connected!');
         manager.stopDeviceScan();
-        console.log('Device Connected !');
         navigation.navigate('ControlScreen', {screen: 'ControlScreen'});
         // Proceed with connection.
       }
@@ -40,7 +41,7 @@ const DeviceCard = (props) => {
     <View style={styles.cardContainer}>
       <TouchableOpacity
         style={styles.touchContainer}
-        onPress={() => scanAndConnect}
+        onPress={scanAndConnect}
         onLongPress={() => {
           setShowConnect(!showConnect);
           setShowDelete(!showDelete);
