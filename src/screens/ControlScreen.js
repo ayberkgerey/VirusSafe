@@ -7,6 +7,7 @@ export default function ControlScreen() {
   const [showAuto, setShowAuto] = useState(false);
   const [showTurbo, setShowTurbo] = useState(false);
   const [isEnabled, setIsEnabled] = useState(false);
+  const [count, setCount] = useState(0);
   const toggleSwitch = () => {
     setIsEnabled((previousState) => !previousState);
     if (!isEnabled) {
@@ -67,10 +68,10 @@ export default function ControlScreen() {
             onPress={() => {
               if (!isEnabled) {
               } else {
-                setShowSleepTimer(true);
                 setShowAuto(false);
-                setShowSilenceMod(false);
                 setShowTurbo(false);
+                setShowSilenceMod(false);
+                setShowSleepTimer(true);
               }
             }}>
             {showSleepTimer ? (
@@ -97,6 +98,7 @@ export default function ControlScreen() {
                 setShowSilenceMod(false);
                 setShowSleepTimer(false);
                 setShowTurbo(false);
+                setCount((prevState) => prevState + 1);
               }
             }}>
             {showAuto ? (

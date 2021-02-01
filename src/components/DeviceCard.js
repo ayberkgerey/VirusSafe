@@ -31,6 +31,20 @@ const DeviceCard = (props) => {
         // Stop scanning as it's not necessary if you are scanning for one device.
         console.log('Device Connected!');
         manager.stopDeviceScan();
+        device
+          .connect()
+          .then((device) => {
+            console.log(
+              JSON.stringify(device.discoverAllServicesAndCharacteristics()),
+            );
+            return device.discoverAllServicesAndCharacteristics();
+          })
+          .then((device) => {
+            // Do work on device with services and characteristics
+          })
+          .catch((error) => {
+            // Handle errors
+          });
         navigation.navigate('ControlScreen', {screen: 'ControlScreen'});
         // Proceed with connection.
       }

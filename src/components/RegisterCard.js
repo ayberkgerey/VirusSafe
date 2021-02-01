@@ -21,6 +21,7 @@ export default function RegisterCard() {
             <TextInput
               style={styles.inputContainer}
               onChangeText={(text) => setTemporaryCode(text)}
+              value={temporaryCode}
             />
           </View>
           <View style={styles.cardLine}>
@@ -28,10 +29,15 @@ export default function RegisterCard() {
             <TextInput
               style={styles.inputContainer}
               onChangeText={(text) => setTemporaryName(text)}
+              value={temporaryName}
             />
           </View>
           <View style={styles.buttonsLine}>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                setTemporaryName();
+                setTemporaryCode();
+              }}>
               <Text style={styles.buttonTitle}>TEMİZLE</Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -82,7 +88,6 @@ const styles = StyleSheet.create({
     height: 35,
     textAlign: 'right',
   },
-
   title: {
     color: '#acee0f',
   },
