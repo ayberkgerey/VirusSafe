@@ -1,4 +1,4 @@
-import React, {useContext, useState, useEffect} from 'react';
+import React, {useContext, useState} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import {useNavigation} from '@react-navigation/core';
@@ -12,11 +12,6 @@ const DeviceCard = (props) => {
   const device = useContext(DeviceContext);
   const manager = new BleManager();
 
-  useEffect(() => {
-    device.setTempCode(props.code);
-    console.log('Temporary Code Saved.');
-  });
-
   const removeIt = () => {
     console.log(JSON.stringify(device.devices));
     const filter = device.devices.filter((item) => item.code !== props.code);
@@ -24,6 +19,8 @@ const DeviceCard = (props) => {
   };
 
   const scanAndConnect = () => {
+    device.setTempCode(props.code);
+    console.log('Temporary Code Saved.');
     console.log('Scanning Devices...');
     manager.startDeviceScan(null, null, (error, device) => {
       if (error) {
@@ -31,22 +28,8 @@ const DeviceCard = (props) => {
         return;
       }
       if (device.name === props.code) {
-        console.log('Device Connected!');
+        console.log('Device Found!');
         manager.stopDeviceScan();
-        device
-          .connect()
-          .then((device) => {
-            console.log(
-              JSON.stringify(device.discoverAllServicesAndCharacteristics()),
-            );
-            return device.discoverAllServicesAndCharacteristics();
-          })
-          .then((device) => {
-            // Do work on device with services and characteristics
-          })
-          .catch((error) => {
-            // Handle errors
-          });
         navigation.navigate('ControlScreen', {screen: 'ControlScreen'});
         // Proceed with connection.
       }
