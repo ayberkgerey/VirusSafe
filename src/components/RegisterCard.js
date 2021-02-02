@@ -42,7 +42,7 @@ export default function RegisterCard() {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                if (temporaryName !== '' && temporaryCode !== '') {
+                if (temporaryName !== '' || temporaryCode !== '') {
                   device.setDevices((prevState) => [
                     ...prevState,
                     {

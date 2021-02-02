@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import {useNavigation} from '@react-navigation/core';
@@ -11,6 +11,11 @@ const DeviceCard = (props) => {
   const navigation = useNavigation();
   const device = useContext(DeviceContext);
   const manager = new BleManager();
+
+  useEffect(() => {
+    device.setTempCode(props.code);
+    console.log('Temporary Code Saved.');
+  });
 
   const removeIt = () => {
     console.log(JSON.stringify(device.devices));
@@ -25,10 +30,7 @@ const DeviceCard = (props) => {
         console.log(JSON.stringify(error));
         return;
       }
-      // Check if it is a device you are looking for based on advertisement data
-      // or other criteria.
       if (device.name === props.code) {
-        // Stop scanning as it's not necessary if you are scanning for one device.
         console.log('Device Connected!');
         manager.stopDeviceScan();
         device

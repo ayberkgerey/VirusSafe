@@ -1,5 +1,13 @@
-import React, {useState} from 'react';
-import {View, TouchableOpacity, StyleSheet, Image, Switch} from 'react-native';
+import React, {useContext, useState} from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Image,
+  Switch,
+} from 'react-native';
+import {DeviceContext} from '../provider/DeviceProvider';
 
 export default function ControlScreen() {
   const [showSilenceMod, setShowSilenceMod] = useState(false);
@@ -8,6 +16,8 @@ export default function ControlScreen() {
   const [showTurbo, setShowTurbo] = useState(false);
   const [isEnabled, setIsEnabled] = useState(false);
   const [count, setCount] = useState(0);
+  const device = useContext(DeviceContext);
+
   const toggleSwitch = () => {
     setIsEnabled((previousState) => !previousState);
     if (!isEnabled) {
@@ -30,6 +40,7 @@ export default function ControlScreen() {
         resizeMode="contain"
         source={require('../assets/virussafe_logo.png')}
       />
+      <Text>{device.tempCode}</Text>
       <Switch
         trackColor={{false: '#767577', true: '#767577'}}
         thumbColor={isEnabled ? '#acee0f' : '#f4f3f4'}
