@@ -8,7 +8,15 @@ import {
   Switch,
 } from 'react-native';
 import {DeviceContext} from '../provider/DeviceProvider';
-import {BleManager} from 'react-native-ble-plx';
+import {
+  BleManager,
+  Characteristic,
+  Device,
+  NativeDevice,
+  NativeService,
+  Service,
+  NativeCharacteristic,
+} from 'react-native-ble-plx';
 
 export default function ControlScreen() {
   const [showSilenceMod, setShowSilenceMod] = useState(false);
@@ -22,13 +30,19 @@ export default function ControlScreen() {
 
   useEffect(() => {
     manager.startDeviceScan(null, null, (error, device) => {
+      const characteristics = new Characteristic(NativeCharacteristic, manager);
+      const virusSafeDevice = new Device(NativeDevice, manager);
+      const service = new Service(NativeService, manager);
+
       if (error) {
         console.log(JSON.stringify(error));
         return;
       }
       if (device.name === tempDevice.tempCode) {
         console.log('DEVICE CONNECTED.');
+
         manager.stopDeviceScan();
+        // Proceed with connection.
         device
           .connect()
           .then((device) => {
@@ -38,14 +52,12 @@ export default function ControlScreen() {
             return device.discoverAllServicesAndCharacteristics();
           })
           .then((device) => {
-            console.log(JSON.stringify(device));
+            console.log('WORKING IS AVAILABLE');
             // Do work on device with services and characteristics
           })
           .catch((error) => {
             // Handle errors
-            console.log(JSON.stringify(error));
           });
-        // Proceed with connection.
       }
     });
   });

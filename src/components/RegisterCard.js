@@ -46,6 +46,7 @@ export default function RegisterCard() {
                   device.setDevices((prevState) => [
                     ...prevState,
                     {
+                      id: device.devices.length,
                       name: temporaryName,
                       code: temporaryCode,
                     },
