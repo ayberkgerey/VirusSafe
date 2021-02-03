@@ -52,8 +52,26 @@ export default function ControlScreen() {
             return device.discoverAllServicesAndCharacteristics();
           })
           .then((device) => {
+            console.log(
+              'device id : ' +
+                device.id +
+                'device name : ' +
+                device.name +
+                ' device is connectable : ' +
+                device.isConnectable +
+                'rssi : ' +
+                device.rssi,
+            );
             console.log('WORKING IS AVAILABLE');
             // Do work on device with services and characteristics
+            manager.writeCharacteristicWithResponseForDevice(
+              device.id,
+              '2',
+              '3',
+              'QVVUT01PRCM=' /*AUTOMOD# : QVVUT01PRCM=
+              It has problems with serviceUUID and charachteristicUUID
+              */,
+            );
           })
           .catch((error) => {
             // Handle errors
