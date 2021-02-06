@@ -8,15 +8,7 @@ import {
   Switch,
 } from 'react-native';
 import {DeviceContext} from '../provider/DeviceProvider';
-import {
-  BleManager,
-  Characteristic,
-  Device,
-  NativeDevice,
-  NativeService,
-  Service,
-  NativeCharacteristic,
-} from 'react-native-ble-plx';
+import {BleManager} from 'react-native-ble-plx';
 
 export default function ControlScreen() {
   const [showSilenceMod, setShowSilenceMod] = useState(false);
@@ -30,10 +22,6 @@ export default function ControlScreen() {
 
   useEffect(() => {
     manager.startDeviceScan(null, null, (error, device) => {
-      const characteristics = new Characteristic(NativeCharacteristic, manager);
-      const virusSafeDevice = new Device(NativeDevice, manager);
-      const service = new Service(NativeService, manager);
-
       if (error) {
         console.log(JSON.stringify(error));
         return;
@@ -53,25 +41,10 @@ export default function ControlScreen() {
           })
           .then((device) => {
             console.log(
-              'device id : ' +
-                device.id +
-                'device name : ' +
-                device.name +
-                ' device is connectable : ' +
-                device.isConnectable +
-                'rssi : ' +
-                device.rssi,
+              'device id : ' + device.id + 'device name : ' + device.name,
             );
             console.log('WORKING IS AVAILABLE');
             // Do work on device with services and characteristics
-            manager.writeCharacteristicWithResponseForDevice(
-              device.id,
-              '2',
-              '3',
-              'QVVUT01PRCM=' /*AUTOMOD# : QVVUT01PRCM=
-              It has problems with serviceUUID and charachteristicUUID
-              */,
-            );
           })
           .catch((error) => {
             // Handle errors

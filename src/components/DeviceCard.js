@@ -25,6 +25,7 @@ const DeviceCard = (props) => {
     manager.startDeviceScan(null, null, (error, device) => {
       if (error) {
         console.log(JSON.stringify(error));
+        alert(error.message);
         return;
       }
       if (device.name === props.code) {
