@@ -34,16 +34,20 @@ export default function ControlScreen() {
         device
           .connect()
           .then((device) => {
-            console.log(
-              JSON.stringify(device.discoverAllServicesAndCharacteristics()),
-            );
+            console.log('Connected...Discovering services and characteristics');
             return device.discoverAllServicesAndCharacteristics();
           })
-          .then((device) => {
-            console.log(
-              'device id : ' + device.id + 'device name : ' + device.name,
-            );
-            console.log('WORKING IS AVAILABLE');
+          .then(async (device) => {
+            console.log('Services and characteristics discovered');
+            //return this.testChar(device)
+            const services = await device.services();
+            const characteristics = await services[1].characteristics();
+            console.log('Characteristics:', characteristics);
+
+            // device.readCharacteristicForService("abbaff00-e56a-484c-b832-8b17cf6cbfe8")
+            // this.info("Setting notifications")
+            //return this.setupNotifications(device)
+
             // Do work on device with services and characteristics
           })
           .catch((error) => {
