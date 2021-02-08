@@ -9,7 +9,10 @@ import {
 } from 'react-native';
 import {DeviceContext} from '../provider/DeviceProvider';
 import {BleManager} from 'react-native-ble-plx';
-
+// device id : 74:DA:EA:A7:97:53
+//service UUID : 00001801-0000-1000-8000-00805f9b34fb
+//UUID : 00002a05-0000-1000-8000-00805f9b34fb
+//AUTOMOD : QVVUT01PRCM=
 export default function ControlScreen() {
   const [showSilenceMod, setShowSilenceMod] = useState(false);
   const [showSleepTimer, setShowSleepTimer] = useState(false);
@@ -19,6 +22,10 @@ export default function ControlScreen() {
   const [count, setCount] = useState(0);
   const tempDevice = useContext(DeviceContext);
   const manager = new BleManager();
+
+  const AUTOMOD = 'QVVUT01PRCM=';
+  const serviceUUID = '0000ffe0-0000-1000-8000-00805f9b34fb';
+  const characteristicUUID = '0000ffe1-0000-1000-8000-00805f9b34fb';
 
   useEffect(() => {
     manager.startDeviceScan(null, null, (error, device) => {
@@ -40,17 +47,46 @@ export default function ControlScreen() {
           .then(async (device) => {
             console.log('Services and characteristics discovered');
             //return this.testChar(device)
-            const services = await device.services();
-            const characteristics = await services[1].characteristics();
-            console.log('Characteristics:', characteristics);
+            console.log(
+              'device id : ' +
+                device.id +
+                'device name : ' +
+                device.name +
+                'device rssi : ' +
+                device.rssi,
+            );
 
-            // device.readCharacteristicForService("abbaff00-e56a-484c-b832-8b17cf6cbfe8")
-            // this.info("Setting notifications")
-            //return this.setupNotifications(device)
+            const services = await device.services();
+            const characteristics0 = await services[0].characteristics();
+            const characteristics1 = await services[1].characteristics();
+            const characteristics2 = await services[2].characteristics();
+            console.log('Characteristics0: ', characteristics0);
+            console.log('Characteristics1: ', characteristics1);
+            console.log('Characteristics2: ', characteristics2);
+
+            await manager.writeCharacteristicWithResponseForDevice(
+              device.id,
+              serviceUUID,
+              characteristicUUID,
+              AUTOMOD,
+            );
+            await manager.writeCharacteristicWithResponseForDevice(
+              device.id,
+              serviceUUID,
+              characteristicUUID,
+              AUTOMOD,
+            );
+            await manager.writeCharacteristicWithResponseForDevice(
+              device.id,
+              serviceUUID,
+              characteristicUUID,
+              AUTOMOD,
+            );
 
             // Do work on device with services and characteristics
           })
           .catch((error) => {
+            console.log(error);
             // Handle errors
           });
       }
