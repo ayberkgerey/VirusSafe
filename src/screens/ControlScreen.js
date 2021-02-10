@@ -1,4 +1,4 @@
-import React, {useContext, useState, useEffect} from 'react';
+import React, {useContext, useState, useEffect, useRef} from 'react';
 import {
   View,
   Text,
@@ -13,6 +13,7 @@ import {BleManager} from 'react-native-ble-plx';
 //service UUID : 00001801-0000-1000-8000-00805f9b34fb
 //UUID : 00002a05-0000-1000-8000-00805f9b34fb
 //AUTOMOD : QVVUT01PRCM=
+
 export default function ControlScreen() {
   const [showSilenceMod, setShowSilenceMod] = useState(false);
   const [showSleepTimer, setShowSleepTimer] = useState(false);
@@ -22,8 +23,11 @@ export default function ControlScreen() {
   const [count, setCount] = useState(0);
   const tempDevice = useContext(DeviceContext);
   const manager = new BleManager();
+  const [tempId, setTempId] = useState();
+  const ref = useRef();
 
   const AUTOMOD = 'QVVUT01PRCM=';
+  const OFFMOD = 'T0ZGTU9EIw==';
   const serviceUUID = '0000ffe0-0000-1000-8000-00805f9b34fb';
   const characteristicUUID = '0000ffe1-0000-1000-8000-00805f9b34fb';
 
@@ -46,7 +50,7 @@ export default function ControlScreen() {
           })
           .then(async (device) => {
             console.log('Services and characteristics discovered');
-            //return this.testChar(device)
+
             console.log(
               'device id : ' +
                 device.id +
@@ -64,42 +68,45 @@ export default function ControlScreen() {
             console.log('Characteristics1: ', characteristics1);
             console.log('Characteristics2: ', characteristics2);
 
-            await manager.writeCharacteristicWithResponseForDevice(
-              device.id,
-              serviceUUID,
-              characteristicUUID,
-              AUTOMOD,
-            );
-            await manager.writeCharacteristicWithResponseForDevice(
-              device.id,
-              serviceUUID,
-              characteristicUUID,
-              AUTOMOD,
-            );
-            await manager.writeCharacteristicWithResponseForDevice(
-              device.id,
-              serviceUUID,
-              characteristicUUID,
-              AUTOMOD,
-            );
-
+            ref.current = device.id;
+            console.log('tempID : ');
+            console.log(ref);
             // Do work on device with services and characteristics
           })
           .catch((error) => {
             console.log(error);
+            alert(error.message);
             // Handle errors
           });
       }
     });
   });
 
-  const toggleSwitch = () => {
+  const toggleSwitch = async () => {
     setIsEnabled((previousState) => !previousState);
     if (!isEnabled) {
       setShowAuto(true);
       setShowTurbo(false);
       setShowSilenceMod(false);
       setShowSleepTimer(false);
+      await manager.writeCharacteristicWithResponseForDevice(
+        ref.current,
+        serviceUUID,
+        characteristicUUID,
+        AUTOMOD,
+      );
+      await manager.writeCharacteristicWithResponseForDevice(
+        ref.current,
+        serviceUUID,
+        characteristicUUID,
+        AUTOMOD,
+      );
+      await manager.writeCharacteristicWithResponseForDevice(
+        ref.current,
+        serviceUUID,
+        characteristicUUID,
+        AUTOMOD,
+      );
     } else {
       setShowAuto(false);
       setShowTurbo(false);
