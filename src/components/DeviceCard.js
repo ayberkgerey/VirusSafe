@@ -38,6 +38,7 @@ const DeviceCard = (props) => {
       if (device.name === props.code) {
         console.log('Device Found!');
         manager.stopDeviceScan();
+        manager.destroy();
         navigation.navigate('ControlScreen', {screen: 'ControlScreen'});
       }
     });

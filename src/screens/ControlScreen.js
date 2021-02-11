@@ -21,7 +21,6 @@ export default function ControlScreen() {
   const [count, setCount] = useState(0);
   const tempDevice = useContext(DeviceContext);
   const manager = new BleManager();
-  const [tempId, setTempId] = useState();
   const ref = useRef();
   const navigation = useNavigation();
 
@@ -30,6 +29,43 @@ export default function ControlScreen() {
   const OFFMOD = 'T0ZGTU9EIw==';
   const TURBOMOD = 'VFVSQk9NT0Qj';
   const SILENCEMOD = 'U0lMRU5DRU1PRCM=';
+
+  const startAuto = async () => {
+    await manager.writeCharacteristicWithoutResponseForDevice(
+      ref,
+      serviceUUID,
+      characteristicUUID,
+      AUTOMOD,
+      '1',
+    );
+  };
+  const startOFF = async () => {
+    await manager.writeCharacteristicWithoutResponseForDevice(
+      ref,
+      serviceUUID,
+      characteristicUUID,
+      OFFMOD,
+      '2',
+    );
+  };
+  const startSilence = async () => {
+    await manager.writeCharacteristicWithoutResponseForDevice(
+      ref,
+      serviceUUID,
+      characteristicUUID,
+      SILENCEMOD,
+      '3',
+    );
+  };
+  const startTurbo = async () => {
+    await manager.writeCharacteristicWithoutResponseForDevice(
+      ref,
+      serviceUUID,
+      characteristicUUID,
+      TURBOMOD,
+      '4',
+    );
+  };
 
   const serviceUUID = '0000ffe0-0000-1000-8000-00805f9b34fb';
   const characteristicUUID = '0000ffe1-0000-1000-8000-00805f9b34fb';
@@ -74,6 +110,14 @@ export default function ControlScreen() {
 */
             ToastAndroid.show('Connected', ToastAndroid.SHORT);
 
+            await manager.writeCharacteristicWithoutResponseForDevice(
+              device.id,
+              serviceUUID,
+              characteristicUUID,
+              OFFMOD,
+              '2',
+            );
+
             ref.current = device.id;
             console.log('tempID : ');
             console.log(ref);
@@ -97,27 +141,17 @@ export default function ControlScreen() {
       setShowTurbo(false);
       setShowSilenceMod(false);
       setShowSleepTimer(false);
-      await manager.writeCharacteristicWithoutResponseForDevice(
-        ref.current,
-        serviceUUID,
-        characteristicUUID,
-        AUTOMOD,
-        'AUTO',
-      );
+      await startAuto();
+      console.log('ref : ');
+      console.log(ref.current);
+
       console.log('AUTOMOD SENT');
     } else {
       setShowAuto(false);
       setShowTurbo(false);
       setShowSilenceMod(false);
       setShowSleepTimer(false);
-      await manager.writeCharacteristicWithoutResponseForDevice(
-        ref.current,
-        serviceUUID,
-        characteristicUUID,
-        OFFMOD,
-        'OFF',
-      );
-      console.log('OFFMOD SENT');
+      await startOFF();
     }
   };
 
