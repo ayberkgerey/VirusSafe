@@ -6,13 +6,11 @@ import {
   StyleSheet,
   Image,
   Switch,
+  ToastAndroid,
 } from 'react-native';
 import {DeviceContext} from '../provider/DeviceProvider';
 import {BleManager} from 'react-native-ble-plx';
-// device id : 74:DA:EA:A7:97:53
-//service UUID : 00001801-0000-1000-8000-00805f9b34fb
-//UUID : 00002a05-0000-1000-8000-00805f9b34fb
-//AUTOMOD : QVVUT01PRCM=
+import {useNavigation} from '@react-navigation/core';
 
 export default function ControlScreen() {
   const [showSilenceMod, setShowSilenceMod] = useState(false);
@@ -25,9 +23,14 @@ export default function ControlScreen() {
   const manager = new BleManager();
   const [tempId, setTempId] = useState();
   const ref = useRef();
+  const navigation = useNavigation();
 
+  //make a current mod thing
   const AUTOMOD = 'QVVUT01PRCM=';
   const OFFMOD = 'T0ZGTU9EIw==';
+  const TURBOMOD = 'VFVSQk9NT0Qj';
+  const SILENCEMOD = 'U0lMRU5DRU1PRCM=';
+
   const serviceUUID = '0000ffe0-0000-1000-8000-00805f9b34fb';
   const characteristicUUID = '0000ffe1-0000-1000-8000-00805f9b34fb';
 
@@ -35,6 +38,7 @@ export default function ControlScreen() {
     manager.startDeviceScan(null, null, (error, device) => {
       if (error) {
         console.log(JSON.stringify(error));
+        navigation.navigate('MainScreen', {screen: 'MainScreen'});
         return;
       }
       if (device.name === tempDevice.tempCode) {
@@ -59,7 +63,7 @@ export default function ControlScreen() {
                 'device rssi : ' +
                 device.rssi,
             );
-
+            /*
             const services = await device.services();
             const characteristics0 = await services[0].characteristics();
             const characteristics1 = await services[1].characteristics();
@@ -67,15 +71,19 @@ export default function ControlScreen() {
             console.log('Characteristics0: ', characteristics0);
             console.log('Characteristics1: ', characteristics1);
             console.log('Characteristics2: ', characteristics2);
+*/
+            ToastAndroid.show('Connected', ToastAndroid.SHORT);
 
             ref.current = device.id;
             console.log('tempID : ');
             console.log(ref);
             // Do work on device with services and characteristics
           })
-          .catch((error) => {
+          .catch(async (error) => {
             console.log(error);
             alert(error.message);
+            await device.cancelConnection();
+            navigation.navigate('MainScreen', {screen: 'MainScreen'});
             // Handle errors
           });
       }
@@ -89,29 +97,27 @@ export default function ControlScreen() {
       setShowTurbo(false);
       setShowSilenceMod(false);
       setShowSleepTimer(false);
-      await manager.writeCharacteristicWithResponseForDevice(
+      await manager.writeCharacteristicWithoutResponseForDevice(
         ref.current,
         serviceUUID,
         characteristicUUID,
         AUTOMOD,
+        'AUTO',
       );
-      await manager.writeCharacteristicWithResponseForDevice(
-        ref.current,
-        serviceUUID,
-        characteristicUUID,
-        AUTOMOD,
-      );
-      await manager.writeCharacteristicWithResponseForDevice(
-        ref.current,
-        serviceUUID,
-        characteristicUUID,
-        AUTOMOD,
-      );
+      console.log('AUTOMOD SENT');
     } else {
       setShowAuto(false);
       setShowTurbo(false);
       setShowSilenceMod(false);
       setShowSleepTimer(false);
+      await manager.writeCharacteristicWithoutResponseForDevice(
+        ref.current,
+        serviceUUID,
+        characteristicUUID,
+        OFFMOD,
+        'OFF',
+      );
+      console.log('OFFMOD SENT');
     }
   };
 
@@ -133,7 +139,7 @@ export default function ControlScreen() {
       <View style={styles.buttonContainer}>
         <View style={{flexDirection: 'row'}}>
           <TouchableOpacity
-            onPress={() => {
+            onPress={async () => {
               if (!isEnabled) {
               } else {
                 setShowSilenceMod(true);
@@ -210,7 +216,7 @@ export default function ControlScreen() {
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={() => {
+            onPress={async () => {
               if (!isEnabled) {
               } else {
                 setShowTurbo(true);

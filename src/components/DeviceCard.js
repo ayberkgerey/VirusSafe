@@ -1,5 +1,11 @@
 import React, {useContext, useState} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ToastAndroid,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import {useNavigation} from '@react-navigation/core';
 import {DeviceContext} from '../provider/DeviceProvider';
@@ -22,6 +28,7 @@ const DeviceCard = (props) => {
     device.setTempCode(props.code);
     console.log('Temporary Code Saved.');
     console.log('Scanning Devices...');
+    ToastAndroid.show('Please Wait', ToastAndroid.SHORT);
     manager.startDeviceScan(null, null, (error, device) => {
       if (error) {
         console.log(JSON.stringify(error));
@@ -31,7 +38,6 @@ const DeviceCard = (props) => {
       if (device.name === props.code) {
         console.log('Device Found!');
         manager.stopDeviceScan();
-        manager.destroy();
         navigation.navigate('ControlScreen', {screen: 'ControlScreen'});
       }
     });
