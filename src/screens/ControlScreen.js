@@ -30,47 +30,10 @@ export default function ControlScreen() {
   const TURBOMOD = 'VFVSQk9NT0Qj';
   const SILENCEMOD = 'U0lMRU5DRU1PRCM=';
 
-  const startAuto = async () => {
-    await manager.writeCharacteristicWithoutResponseForDevice(
-      ref,
-      serviceUUID,
-      characteristicUUID,
-      AUTOMOD,
-      '1',
-    );
-  };
-  const startOFF = async () => {
-    await manager.writeCharacteristicWithoutResponseForDevice(
-      ref,
-      serviceUUID,
-      characteristicUUID,
-      OFFMOD,
-      '2',
-    );
-  };
-  const startSilence = async () => {
-    await manager.writeCharacteristicWithoutResponseForDevice(
-      ref,
-      serviceUUID,
-      characteristicUUID,
-      SILENCEMOD,
-      '3',
-    );
-  };
-  const startTurbo = async () => {
-    await manager.writeCharacteristicWithoutResponseForDevice(
-      ref,
-      serviceUUID,
-      characteristicUUID,
-      TURBOMOD,
-      '4',
-    );
-  };
-
   const serviceUUID = '0000ffe0-0000-1000-8000-00805f9b34fb';
   const characteristicUUID = '0000ffe1-0000-1000-8000-00805f9b34fb';
 
-  useEffect(() => {
+  const scanDevice = () => {
     manager.startDeviceScan(null, null, (error, device) => {
       if (error) {
         console.log(JSON.stringify(error));
@@ -90,15 +53,6 @@ export default function ControlScreen() {
           })
           .then(async (device) => {
             console.log('Services and characteristics discovered');
-
-            console.log(
-              'device id : ' +
-                device.id +
-                'device name : ' +
-                device.name +
-                'device rssi : ' +
-                device.rssi,
-            );
             /*
             const services = await device.services();
             const characteristics0 = await services[0].characteristics();
@@ -109,15 +63,6 @@ export default function ControlScreen() {
             console.log('Characteristics2: ', characteristics2);
 */
             ToastAndroid.show('Connected', ToastAndroid.SHORT);
-
-            await manager.writeCharacteristicWithoutResponseForDevice(
-              device.id,
-              serviceUUID,
-              characteristicUUID,
-              OFFMOD,
-              '2',
-            );
-
             ref.current = device.id;
             console.log('tempID : ');
             console.log(ref);
@@ -132,6 +77,10 @@ export default function ControlScreen() {
           });
       }
     });
+  };
+
+  useEffect(() => {
+    scanDevice();
   });
 
   const toggleSwitch = async () => {
@@ -141,7 +90,13 @@ export default function ControlScreen() {
       setShowTurbo(false);
       setShowSilenceMod(false);
       setShowSleepTimer(false);
-      await startAuto();
+      await manager.writeCharacteristicWithoutResponseForDevice(
+        ref.current,
+        serviceUUID,
+        characteristicUUID,
+        AUTOMOD,
+        '1',
+      );
       console.log('ref : ');
       console.log(ref.current);
 
@@ -151,7 +106,13 @@ export default function ControlScreen() {
       setShowTurbo(false);
       setShowSilenceMod(false);
       setShowSleepTimer(false);
-      await startOFF();
+      await manager.writeCharacteristicWithoutResponseForDevice(
+        ref.current,
+        serviceUUID,
+        characteristicUUID,
+        OFFMOD,
+        '2',
+      );
     }
   };
 
