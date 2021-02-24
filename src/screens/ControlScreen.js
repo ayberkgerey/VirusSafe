@@ -18,12 +18,11 @@ export default function ControlScreen() {
   const [showAuto, setShowAuto] = useState(false);
   const [showTurbo, setShowTurbo] = useState(false);
   const [isEnabled, setIsEnabled] = useState(false);
-  const [count, setCount] = useState(0);
+
   const tempDevice = useContext(DeviceContext);
   const manager = new BleManager();
   const ref = useRef();
   const navigation = useNavigation();
-
   //make a current mod thing
   const AUTOMOD = 'QVVUT01PRCM=';
   const OFFMOD = 'T0ZGTU9EIw==';
@@ -42,7 +41,6 @@ export default function ControlScreen() {
       }
       if (device.name === tempDevice.tempCode) {
         console.log('DEVICE CONNECTED.');
-
         manager.stopDeviceScan();
         // Proceed with connection.
         device
@@ -53,7 +51,7 @@ export default function ControlScreen() {
           })
           .then(async (device) => {
             console.log('Services and characteristics discovered');
-            /*
+
             const services = await device.services();
             const characteristics0 = await services[0].characteristics();
             const characteristics1 = await services[1].characteristics();
@@ -61,7 +59,7 @@ export default function ControlScreen() {
             console.log('Characteristics0: ', characteristics0);
             console.log('Characteristics1: ', characteristics1);
             console.log('Characteristics2: ', characteristics2);
-*/
+
             ToastAndroid.show('Connected', ToastAndroid.SHORT);
             ref.current = device.id;
             console.log('tempID : ');
@@ -71,7 +69,6 @@ export default function ControlScreen() {
           .catch(async (error) => {
             console.log(error);
             alert(error.message);
-            await device.cancelConnection();
             navigation.navigate('MainScreen', {screen: 'MainScreen'});
             // Handle errors
           });
@@ -80,39 +77,50 @@ export default function ControlScreen() {
   };
 
   useEffect(() => {
-    scanDevice();
+    const subscription = manager.onStateChange((state) => {
+      if (state === 'PoweredOn') {
+        scanDevice();
+        subscription.remove();
+      }
+    }, true);
   });
 
   const toggleSwitch = async () => {
     setIsEnabled((previousState) => !previousState);
     if (!isEnabled) {
+      await manager
+        .writeCharacteristicWithoutResponseForDevice(
+          ref.current,
+          serviceUUID,
+          characteristicUUID,
+          AUTOMOD,
+        )
+        .then((value) => console.log(value))
+        .catch((err) => {
+          console.log(err);
+        });
+      console.log('AUTOMOD SENT');
       setShowAuto(true);
       setShowTurbo(false);
       setShowSilenceMod(false);
       setShowSleepTimer(false);
-      await manager.writeCharacteristicWithoutResponseForDevice(
-        ref.current,
-        serviceUUID,
-        characteristicUUID,
-        AUTOMOD,
-        '1',
-      );
-      console.log('ref : ');
-      console.log(ref.current);
-
-      console.log('AUTOMOD SENT');
     } else {
+      await manager
+        .writeCharacteristicWithoutResponseForDevice(
+          ref.current,
+          serviceUUID,
+          characteristicUUID,
+          OFFMOD,
+        )
+        .then((value) => console.log(value))
+        .catch((err) => {
+          console.log(err);
+        });
+
       setShowAuto(false);
       setShowTurbo(false);
       setShowSilenceMod(false);
       setShowSleepTimer(false);
-      await manager.writeCharacteristicWithoutResponseForDevice(
-        ref.current,
-        serviceUUID,
-        characteristicUUID,
-        OFFMOD,
-        '2',
-      );
     }
   };
 
@@ -192,7 +200,6 @@ export default function ControlScreen() {
                 setShowSilenceMod(false);
                 setShowSleepTimer(false);
                 setShowTurbo(false);
-                setCount((prevState) => prevState + 1);
               }
             }}>
             {showAuto ? (
