@@ -12,15 +12,26 @@ import {DeviceContext} from '../provider/DeviceProvider';
 import {BleManager} from 'react-native-ble-plx';
 import {useNavigation} from '@react-navigation/core';
 
-const manager = new BleManager();
-
 export default function ControlScreen() {
   const [showSilenceMod, setShowSilenceMod] = useState(false);
   const [showSleepTimer, setShowSleepTimer] = useState(false);
   const [showAuto, setShowAuto] = useState(false);
   const [showTurbo, setShowTurbo] = useState(false);
+  const manager = useRef(new BleManager()).current;
+
+  useEffect(() => {
+    const subscription = manager.onStateChange((state) => {
+      if (state === 'PoweredOn') {
+        scanDevice();
+      }
+    }, true);
+    return () => subscription.remove();
+  }, []);
+
+  console.log('manager control screen', manager && manager);
 
   const [isEnabled, setIsEnabled] = useState(false);
+  const [device, setDevice] = useState(null);
   const tempDevice = useContext(DeviceContext);
   const ref = useRef();
   const navigation = useNavigation();
@@ -42,8 +53,14 @@ export default function ControlScreen() {
       }
       if (device.name === tempDevice.tempCode) {
         console.log('DEVICE CONNECTED.');
+        console.log('manager', manager);
         manager.stopDeviceScan();
         // Proceed with connection.
+        manager
+          .connectToDevice(device.id, {autoConnect: true})
+          .then((device) => {
+            setDevice(device);
+          });
         device
           .connect()
           .then((device) => {
@@ -76,15 +93,6 @@ export default function ControlScreen() {
       }
     });
   };
-
-  useEffect(() => {
-    const subscription = manager.onStateChange((state) => {
-      if (state === 'PoweredOn') {
-        scanDevice();
-        subscription.remove();
-      }
-    }, true);
-  });
 
   const toggleSwitch = async () => {
     setIsEnabled((previousState) => !previousState);

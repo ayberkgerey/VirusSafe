@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import {
   View,
   Text,
@@ -11,13 +11,21 @@ import {useNavigation} from '@react-navigation/core';
 import {DeviceContext} from '../provider/DeviceProvider';
 import {BleManager} from 'react-native-ble-plx';
 
-const manager = new BleManager();
+//const manager = new BleManager();
 
 const DeviceCard = (props) => {
   const [showDelete, setShowDelete] = useState(false);
   const [showConnect, setShowConnect] = useState(true);
   const navigation = useNavigation();
   const device = useContext(DeviceContext);
+  const manager = useRef(new BleManager()).current;
+
+  useEffect(() => {
+    //manager = new BleManager();
+    console.log('device card dud mount', manager);
+  }, []);
+
+  console.log('devıce card manager', manager && manager);
 
   const removeIt = () => {
     console.log(JSON.stringify(device.devices));
