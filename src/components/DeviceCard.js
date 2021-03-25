@@ -11,12 +11,13 @@ import {useNavigation} from '@react-navigation/core';
 import {DeviceContext} from '../provider/DeviceProvider';
 import {BleManager} from 'react-native-ble-plx';
 
+const manager = new BleManager();
+
 const DeviceCard = (props) => {
   const [showDelete, setShowDelete] = useState(false);
   const [showConnect, setShowConnect] = useState(true);
   const navigation = useNavigation();
   const device = useContext(DeviceContext);
-  const manager = new BleManager();
 
   const removeIt = () => {
     console.log(JSON.stringify(device.devices));

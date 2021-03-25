@@ -12,15 +12,16 @@ import {DeviceContext} from '../provider/DeviceProvider';
 import {BleManager} from 'react-native-ble-plx';
 import {useNavigation} from '@react-navigation/core';
 
+const manager = new BleManager();
+
 export default function ControlScreen() {
   const [showSilenceMod, setShowSilenceMod] = useState(false);
   const [showSleepTimer, setShowSleepTimer] = useState(false);
   const [showAuto, setShowAuto] = useState(false);
   const [showTurbo, setShowTurbo] = useState(false);
-  const [isEnabled, setIsEnabled] = useState(false);
 
+  const [isEnabled, setIsEnabled] = useState(false);
   const tempDevice = useContext(DeviceContext);
-  const manager = new BleManager();
   const ref = useRef();
   const navigation = useNavigation();
   //make a current mod thing
