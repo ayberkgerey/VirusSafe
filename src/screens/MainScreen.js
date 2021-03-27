@@ -70,6 +70,30 @@ export default function MainScreen() {
           console.log('characteristic', characteristic);
           setCharacteristicsUUID(characteristic.uuid);
           setConnectedDevice(device);
+          characteristic
+            .writeWithoutResponse(AUTOMOD, transactionId)
+            .then((chr) => {
+              console.log('chr', chr);
+            })
+            .catch((error) => {
+              console.log('chr error', error);
+            });
+          /*
+          bleManager
+            .writeCharacteristicWithoutResponseForDevice(
+              device.id,
+              characteristic.serviceUUID,
+              characteristic.uuid,
+              AUTOMOD,
+              transactionId,
+            )
+            .then((characteristic) => {
+              console.log('write response : {}', characteristic);
+            })
+            .catch((error) => {
+              console.log('error in writing {}', error);
+            });*/
+
           //this.setState({"deviceid":device.id, serviceUUID:serviceUUIDs, characteristicsUUID : characteristic.uuid,device:device })
         })();
         return device.discoverAllServicesAndCharacteristics();
@@ -111,10 +135,24 @@ export default function MainScreen() {
   };
 
   const writeMessage = async (message) => {
+    console.log('write message');
     bleManager.cancelTransaction(transactionId);
-    if (connectedDevice) {
+    bleManager.connectToDevice(connectedDevice.id, {autoConnect: true}).then((d) => {
+      console.log('wrıte message ble manager connect', d);
+      d.writeCharacteristicWithoutResponseForService(serviceUUID, characteristicsUUID, message)
+        .then((characteristic) => {
+          console.log('write response : {}', characteristic);
+        })
+        .catch((error) => {
+          console.log('error in writing {}', error);
+        });
+    });
+    /*let connected = false;
+    connectedDevice.isConnected().then((b) => (connected = b));
+    console.log('ıs connected : ', connected);
+    if (connected) {
       connectedDevice
-        .writeCharacteristicWithResponseForService(serviceUUID, characteristicsUUID, message)
+        .writeCharacteristicWithoutResponseForService(serviceUUID, characteristicsUUID, message)
         .then((characteristic) => {
           console.log('write response : {}', characteristic);
         })
@@ -122,8 +160,16 @@ export default function MainScreen() {
           console.log('error in writing {}', error);
         });
     } else {
+      connectedDevice
+        .connect({autoConnect: true})
+        .then(() => {
+          writeMessage(message);
+        })
+        .catch((error) => {
+          console.log('can not connect to device');
+        });
       console.log('There is not a connected device');
-    }
+    }*/
   };
 
   return (
@@ -151,14 +197,14 @@ export default function MainScreen() {
           <Icon name="search-plus" size={35} color="#acee0f" />
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => {
-            writeMessage(AUTOMOD);
+          onPress={async () => {
+            await writeMessage(AUTOMOD);
           }}>
           <Icon name="magic" size={35} color="#acee0f" />
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => {
-            writeMessage(OFFMOD);
+          onPress={async () => {
+            await writeMessage(OFFMOD);
           }}>
           <Icon name="dot-circle-o" size={35} color="#acee0f" />
         </TouchableOpacity>
