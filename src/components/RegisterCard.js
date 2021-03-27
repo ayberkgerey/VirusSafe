@@ -1,66 +1,56 @@
 import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-} from 'react-native';
-import {DeviceContext} from '../provider/DeviceProvider';
+import {View, Text, TextInput, TouchableOpacity, StyleSheet} from 'react-native';
 
-export default function RegisterCard() {
+const RegisterCard = ({addDevice, setShow}) => {
   const [temporaryName, setTemporaryName] = useState();
   const [temporaryCode, setTemporaryCode] = useState();
 
   return (
-    <DeviceContext.Consumer>
-      {(device) => (
-        <View style={styles.cardContainer}>
-          <View style={styles.cardLine}>
-            <Text style={styles.title}>CIHAZ KODU</Text>
-            <TextInput
-              style={styles.inputContainer}
-              onChangeText={(text) => setTemporaryCode(text)}
-              value={temporaryCode}
-            />
-          </View>
-          <View style={styles.cardLine}>
-            <Text style={styles.title}>CIHAZ ADI</Text>
-            <TextInput
-              style={styles.inputContainer}
-              onChangeText={(text) => setTemporaryName(text)}
-              value={temporaryName}
-            />
-          </View>
-          <View style={styles.buttonsLine}>
-            <TouchableOpacity
-              onPress={() => {
-                setTemporaryName();
-                setTemporaryCode();
-              }}>
-              <Text style={styles.buttonTitle}>TEMİZLE</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                if (temporaryName !== '' || temporaryCode !== '') {
-                  device.setDevices((prevState) => [
-                    ...prevState,
-                    {
-                      id: device.devices.length,
-                      name: temporaryName,
-                      code: temporaryCode,
-                    },
-                  ]);
-                }
-              }}>
-              <Text style={styles.buttonTitle}>KAYIT</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      )}
-    </DeviceContext.Consumer>
+    <View style={styles.cardContainer}>
+      <View style={styles.cardLine}>
+        <Text style={styles.title}>CIHAZ KODU</Text>
+        <TextInput
+          style={styles.inputContainer}
+          onChangeText={(text) => setTemporaryCode(text)}
+          value={temporaryCode}
+        />
+      </View>
+      <View style={styles.cardLine}>
+        <Text style={styles.title}>CIHAZ ADI</Text>
+        <TextInput
+          style={styles.inputContainer}
+          onChangeText={(text) => setTemporaryName(text)}
+          value={temporaryName}
+        />
+      </View>
+      <View style={styles.buttonsLine}>
+        <TouchableOpacity
+          onPress={() => {
+            setTemporaryName('');
+            setTemporaryCode('');
+            setShow(false);
+          }}>
+          <Text style={styles.buttonTitle}>KAPAT</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            if (temporaryName !== '' || temporaryCode !== '') {
+              addDevice({
+                name: temporaryName,
+                code: temporaryCode,
+              });
+              setTemporaryCode('');
+              setTemporaryName('');
+            }
+          }}>
+          <Text style={styles.buttonTitle}>KAYIT</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
   );
-}
+};
+
+export default RegisterCard;
 
 const styles = StyleSheet.create({
   cardContainer: {

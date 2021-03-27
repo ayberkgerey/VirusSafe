@@ -1,25 +1,24 @@
-import React, {useContext, useState} from 'react';
-import {View, FlatList, ListView, StyleSheet} from 'react-native';
+import React, {useState} from 'react';
+import {View, FlatList, StyleSheet} from 'react-native';
 import DeviceCard from './DeviceCard';
-import {DeviceContext} from '../provider/DeviceProvider';
 
-export default function CardList() {
-  const device = useContext(DeviceContext);
-
+const CardList = ({devices, connect}) => {
   return (
     <View style={styles.container}>
       <FlatList
         keyExtractor={(item, index) => item.id.toString()}
-        data={device.devices}
+        data={devices}
         renderItem={({item}) => (
           <View style={{marginTop: 15}}>
-            <DeviceCard id={item.id} name={item.name} code={item.code} />
+            <DeviceCard device={item} connect={connect} />
           </View>
         )}
       />
     </View>
   );
-}
+};
+
+export default CardList;
 
 const styles = StyleSheet.create({
   container: {

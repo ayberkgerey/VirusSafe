@@ -12,7 +12,7 @@ import {DeviceContext} from '../provider/DeviceProvider';
 import {BleManager} from 'react-native-ble-plx';
 import {useNavigation} from '@react-navigation/core';
 
-export default function ControlScreen() {
+const ControlScreen = () => {
   const [showSilenceMod, setShowSilenceMod] = useState(false);
   const [showSleepTimer, setShowSleepTimer] = useState(false);
   const [showAuto, setShowAuto] = useState(false);
@@ -254,7 +254,9 @@ export default function ControlScreen() {
       </View>
     </View>
   );
-}
+};
+
+export default ControlScreen;
 
 const styles = StyleSheet.create({
   container: {
